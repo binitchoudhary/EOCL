@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Website</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            margin: 10px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 24px;
+            background: none;
+            border: none;
+        }
+        
+        .popup-stack {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .popup-stack .popup-overlay {
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>This is some sample content. Popups will appear when you visit this page.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    
+    <!-- Container for multiple popups -->
+    <div class="popup-stack" id="popupContainer"></div>
+    
+    <script >
+        document.addEventListener('DOMContentLoaded', function() {
+    // Popup content array
+    const popups = [
+        {
+            title: "Welcome!",
+            message: "Welcome to our website! Sign up for our newsletter.",
+            bgColor: "#f0f8ff"
+        },
+        {
+            title: "Special Offer",
+            message: "Get 20% off your first purchase!",
+            bgColor: "#fff0f5"
+        },
+        {
+            title: "Limited Time",
+            message: "This offer expires in 24 hours!",
+            bgColor: "#f5f5dc"
+        },
+        {
+            title: "Download Now",
+            message: "Get our free ebook!",
+            bgColor: "#e6ffe6"
+        },
+        {
+            title: "Notification",
+            message: "You have unread messages.",
+            bgColor: "#fff0f0"
+        },
+        {
+            title: "Alert",
+            message: "Your subscription is expiring soon.",
+            bgColor: "#f0fff0"
+        },
+        {
+            title: "Update",
+            message: "New features available!",
+            bgColor: "#f8f8ff"
+        },
+        {
+            title: "Reminder",
+            message: "Complete your profile for better experience.",
+            bgColor: "#fff8e1"
+        },
+        {
+            title: "Congratulations",
+            message: "You're our 1000th visitor!",
+            bgColor: "#e8f4f8"
+        },
+        {
+            title: "Important",
+            message: "Please verify your email address.",
+            bgColor: "#f9f0ff"
+        },
+        {
+            title: "Survey",
+            message: "Help us improve by taking a quick survey.",
+            bgColor: "#fff5e6"
+        }
+    ];
+
+    // Delay before showing popups (in milliseconds)
+    const delay = 100;
+    
+    // Create and show popups with staggered delay
+    popups.forEach((popup, index) => {
+        setTimeout(() => {
+            createPopup(popup, index);
+        }, delay * index);
+    });
+
+    function createPopup(popupData, zIndex) {
+        const popupContainer = document.getElementById('popupContainer');
+        
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'popup-overlay';
+        overlay.style.display = 'flex';
+        overlay.style.zIndex = 1000 + zIndex;
+        
+        // Create popup
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.style.backgroundColor = popupData.bgColor;
+        popup.style.zIndex = 1001 + zIndex;
+        
+        // Popup content
+        popup.innerHTML = `
+            <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            <h2>${popupData.title}</h2>
+            <p>${popupData.message}</p>
+            <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 20px; margin-top: 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Close
+            </button>
+        `;
+        
+        // Append to overlay
+        overlay.appendChild(popup);
+        
+        // Append to container
+        popupContainer.appendChild(overlay);
+        
+        // Optional: Auto-remove after 30 seconds
+        setTimeout(() => {
+            if (overlay.parentElement) {
+                overlay.remove();
+            }
+        }, 30000);
+    }
+    
+    // Function to close all popups
+    window.closeAllPopups = function() {
+        const popupContainer = document.getElementById('popupContainer');
+        while (popupContainer.firstChild) {
+            popupContainer.removeChild(popupContainer.firstChild);
+        }
+    };
+});
+    </script>
+</body>
+</html>
