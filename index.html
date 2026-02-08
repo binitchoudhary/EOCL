@@ -236,13 +236,10 @@
                 
                 // Popup content
                 popup.innerHTML = `
-                    <button class="close-btn" onclick="this.parentElement.remove()">×</button>
                     <div class="popup-content">
                         <h2>${popupData.title}</h2>
                         <p>${popupData.message}</p>
-                        <button class="popup-btn" onclick="this.closest('.popup').remove()">
-                            Close This Popup
-                        </button>
+                        <!-- Close button removed -->
                     </div>
                 `;
                 
@@ -325,21 +322,7 @@
             };
             
             // Add a global close button in bottom right
-            const globalCloseBtn = document.createElement('button');
-            globalCloseBtn.textContent = 'Close All Popups (Press ESC)';
-            globalCloseBtn.style.position = 'fixed';
-            globalCloseBtn.style.bottom = '20px';
-            globalCloseBtn.style.right = '20px';
-            globalCloseBtn.style.zIndex = '2000';
-            globalCloseBtn.style.padding = '10px 20px';
-            globalCloseBtn.style.background = '#ff4444';
-            globalCloseBtn.style.color = 'white';
-            globalCloseBtn.style.border = 'none';
-            globalCloseBtn.style.borderRadius = '5px';
-            globalCloseBtn.style.cursor = 'pointer';
-            globalCloseBtn.style.fontWeight = 'bold';
-            globalCloseBtn.onclick = closeAllPopups;
-            document.body.appendChild(globalCloseBtn);
+            // Global close button removed
             
             // Close all popups with ESC key
             document.addEventListener('keydown', function(e) {
